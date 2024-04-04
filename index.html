@@ -80,17 +80,21 @@
                         <!---------Single Line Ends Here---------->
                         <!---------Email Starts Here------- --->
                         <div class="name-item-2">
-                            <li class="zf-tempFrmWrapper zf-large"><label class="zf-labelName">
-                                    Email
-                                    <em class="zf-important">*</em>
-                                </label>
-                                <div class="zf-tempContDiv">
-                                    <span> <input fieldType=9 type="text" maxlength="255" name="Email" checktype="c5"
-                                            value="" placeholder="" /></span>
-                                    <p id="Email_error" class="zf-errorMessage" style="display:none;">Invalid value</p>
-                                </div>
-                                <div class="zf-clearBoth"></div>
-                            </li><!---------Email Ends Here---------->
+                            <li class="zf-tempFrmWrapper zf-large col2"><label class="zf-labelName">
+                                Email
+                                <em class="zf-important">*</em>
+                            </label>
+                            <div class="zf-tempContDiv">
+                                <span id="loaderContainer"> <input fieldType=9 type="text" maxlength="255"
+                                        name="Email" checktype="c5" value="" placeholder="" id="Email" />
+                                    <div id="loader"></div>
+                                </span>
+                                <p id="Email_error" class="zf-errorMessage" style="display:none;">Please complete
+                                    this required field.</p>
+                            </div>
+                            <div class="zf-clearBoth"></div>
+                        </li>
+                            <!---------Email Ends Here---------->
                             <!---------Currency Starts Here---------->
                             <li class="zf-tempFrmWrapper zf-currency zf-csmall"><label class="zf-labelName">
                                     Desired Credit Limit
@@ -140,7 +144,7 @@
                             </li>
                         </div>
                         <!---------Email Ends Here---------->
-                        <button class="zf-submitColor">Submit</button>
+                        <button class="zf-submitColor" id="zf-submitColor">Submit</button>
                     </ul>
 
                 </div><!---------template Container Starts Here---------->
@@ -152,7 +156,30 @@
         var zf_MandArray = ["SingleLine", "SingleLine1", "Email"];
         var zf_FieldArray = ["SingleLine", "SingleLine1", "Email", "Currency1", "SingleLine20", "Email3"];
         var isSalesIQIntegrationEnabled = false;
-        var salesIQFieldsArray = [];</script>
+        var salesIQFieldsArray = [];
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        window.addEventListener('message', function (event) {
+            var email = event.data;
+            document.getElementById('Email').value = email;
+            document.getElementById("Email").readOnly = true;
+            let checkField = setInterval(function () {
+                if ($('#Email').val() !== '') {
+                    $('#loader').hide();
+                    clearInterval(checkField);
+                }
+            }, 100);
+            $('#loader').hide();
+        });
+    </script>
+    <script>
+        $('form').submit(function () {
+            $('#zf-submitColor').prop('disabled', true);
+            setTimeout(function () {
+                $('#zf-submitColor').prop('disabled', false);
+            }, 5000);
+        });
+    </script>
 </body>
-
 </html>
